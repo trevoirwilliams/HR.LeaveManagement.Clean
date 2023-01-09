@@ -5,7 +5,7 @@ using HR.LeaveManagement.Application.Features.LeaveRequest.Shared;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
 
-public class UpdateLeaveRequestCommandValidator : AbstractValidator<CancelLeaveRequestCommand>
+public class UpdateLeaveRequestCommandValidator : AbstractValidator<UpdateLeaveRequestCommand>
 {
     private readonly ILeaveTypeRepository _leaveTypeRepository;
     private readonly ILeaveRequestRepository _leaveRequestRepository;
@@ -14,7 +14,8 @@ public class UpdateLeaveRequestCommandValidator : AbstractValidator<CancelLeaveR
     {
         _leaveTypeRepository = leaveTypeRepository;
         _leaveRequestRepository = leaveRequestRepository;
-        Include(new ILeaveRequestDtoValidator(_leaveTypeRepository));
+
+        Include(new BaseLeaveRequestValidator(_leaveTypeRepository));
 
         RuleFor(p => p.Id)
                 .NotNull()

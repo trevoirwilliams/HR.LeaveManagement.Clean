@@ -28,7 +28,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CancelLe
 
             leaveRequest.Cancelled = true;
 
-            // Re-evaluate the employee's allocations for the leave type
+            // if already approved, re-evaluate the employee's allocations for the leave type
 
             // send confirmation email
             var email = new EmailMessage

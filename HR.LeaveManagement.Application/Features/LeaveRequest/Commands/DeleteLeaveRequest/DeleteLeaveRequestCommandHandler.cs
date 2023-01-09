@@ -8,12 +8,10 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.DeleteLe
 public class DeleteLeaveRequestCommandHandler : IRequestHandler<DeleteLeaveRequestCommand>
 {
     private readonly ILeaveRequestRepository _leaveRequestRepository;
-    private readonly IMapper _mapper;
 
-    public DeleteLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+    public DeleteLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository)
     {
         _leaveRequestRepository = leaveRequestRepository;
-        _mapper = mapper;
     }
 
     public async Task<Unit> Handle(DeleteLeaveRequestCommand request, CancellationToken cancellationToken)

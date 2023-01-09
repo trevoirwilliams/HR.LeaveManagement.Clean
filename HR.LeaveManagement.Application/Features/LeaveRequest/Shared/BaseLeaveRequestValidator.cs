@@ -4,11 +4,11 @@ using HR.LeaveManagement.Application.DTOs.LeaveRequest;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Shared
 {
-    public class ILeaveRequestDtoValidator : AbstractValidator<ILeaveRequestDto>
+    public class BaseLeaveRequestValidator : AbstractValidator<BaseLeaveRequest>
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public ILeaveRequestDtoValidator(ILeaveTypeRepository leaveTypeRepository)
+        public BaseLeaveRequestValidator(ILeaveTypeRepository leaveTypeRepository)
         {
             _leaveTypeRepository = leaveTypeRepository;
             RuleFor(p => p.StartDate)

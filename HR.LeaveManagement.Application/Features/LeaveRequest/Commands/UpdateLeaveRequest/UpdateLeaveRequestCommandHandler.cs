@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Logging;
 using HR.LeaveManagement.Application.Contracts.Persistence;
 using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Application.Models.Email;
@@ -7,23 +8,25 @@ using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
 
-public class UpdateLeaveRequestCommandHandler : IRequestHandler<CancelLeaveRequestCommand, Unit>
+public class UpdateLeaveRequestCommandHandler : IRequestHandler<UpdateLeaveRequestCommand, Unit>
 {
     private readonly IMapper _mapper;
     private readonly IEmailSender _emailSender;
+    private readonly IAppLogger<UpdateLeaveRequestCommandHandler> _appLogger;
     private readonly ILeaveRequestRepository _leaveRequestRepository;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
 
     public UpdateLeaveRequestCommandHandler(
-         ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository, IMapper mapper, IEmailSender emailSender)
+         ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository, IMapper mapper, IEmailSender emailSender, IAppLogger<UpdateLeaveRequestCommandHandler> appLogger)
     {
         _leaveRequestRepository = leaveRequestRepository;
         _leaveTypeRepository = leaveTypeRepository;
         _mapper = mapper;
         this._emailSender = emailSender;
+        this._appLogger = appLogger;
     }
 
-    public async Task<Unit> Handle(CancelLeaveRequestCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateLeaveRequestCommand request, CancellationToken cancellationToken)
     {
         var leaveRequest = await _leaveRequestRepository.GetByIdAsync(request.Id);
 
@@ -41,16 +44,23 @@ public class UpdateLeaveRequestCommandHandler : IRequestHandler<CancelLeaveReque
 
         await _leaveRequestRepository.UpdateAsync(leaveRequest);
 
-        // send confirmation email
-        var email = new EmailMessage
+        try
         {
-            To = string.Empty, /* Get email from employee record */
-            Body = $"Your leave request for {request.StartDate:D} to {request.EndDate:D} " +
-                    $"has been updated successfully.",
-            Subject = "Leave Request Submitted"
-        };
+            // send confirmation email
+            var email = new EmailMessage
+            {
+                To = string.Empty, /* Get email from employee record */
+                Body = $"Your leave request for {request.StartDate:D} to {request.EndDate:D} " +
+                        $"has been updated successfully.",
+                Subject = "Leave Request Updated"
+            };
 
-        await _emailSender.SendEmail(email);
+            await _emailSender.SendEmail(email);
+        }
+        catch (Exception ex)
+        {
+            _appLogger.LogWarning(ex.Message);
+        }
 
         return Unit.Value;
     }

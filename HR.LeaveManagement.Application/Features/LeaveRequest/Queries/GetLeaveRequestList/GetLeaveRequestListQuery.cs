@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestList
 {
-    public class GetLeaveRequestListRequest : IRequest<List<LeaveRequestListDto>>
+    public class GetLeaveRequestListQuery : IRequest<List<LeaveRequestListDto>>
     {
     }
 }
