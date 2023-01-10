@@ -1,3 +1,4 @@
+using HR.LeaveManagement.Api.Middleware;
 using HR.LeaveManagement.Application;
 using HR.LeaveManagement.Infrastructure;
 using HR.LeaveManagement.Persistence;
@@ -12,7 +13,8 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
-builder.Services.AddCors(options => { 
+builder.Services.AddCors(options =>
+{
     options.AddPolicy("all", builder => builder.AllowAnyOrigin()
     .AllowAnyHeader()
     .AllowAnyMethod());
@@ -23,6 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

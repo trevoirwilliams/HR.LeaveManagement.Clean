@@ -26,6 +26,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Queries
             var leaveRequests = await _leaveRequestRepository.GetLeaveRequestsWithDetails();
             var requests = _mapper.Map<List<LeaveRequestListDto>>(leaveRequests);
             
+
             // Fill requests with employee information
 
             return requests;
