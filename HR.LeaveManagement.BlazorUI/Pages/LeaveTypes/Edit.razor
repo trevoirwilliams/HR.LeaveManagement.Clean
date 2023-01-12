@@ -1,4 +1,6 @@
 ﻿@page "/leavetypes/edit/{id:int}"
+@attribute [Authorize(Roles = "Administrator")]
+
 <h3>Edit Leave Type</h3>
 
 @if (string.IsNullOrEmpty(Message) == false)
