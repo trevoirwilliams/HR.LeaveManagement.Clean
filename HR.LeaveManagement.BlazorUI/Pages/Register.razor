@@ -1,0 +1,53 @@
+﻿@page "/register"
+
+<h3>Register</h3>
+
+@if (string.IsNullOrEmpty(Message) == false)
+{
+    <div class="alert alert-danger">
+        @Message
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@Model" OnValidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <InputText id="FirstName" class="form-control" @bind-Value="@Model.FirstName"></InputText>
+                <ValidationMessage For="@(() => Model.FirstName)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <InputText id="LastName" class="form-control" @bind-Value="@Model.LastName"></InputText>
+                <ValidationMessage For="@(() => Model.LastName)" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <InputText id="Email" class="form-control" @bind-Value="@Model.Email"></InputText>
+                <ValidationMessage For="@(() => Model.Email)" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">UserName</label>
+                <InputText id="UserName" class="form-control" @bind-Value="@Model.UserName"></InputText>
+                <ValidationMessage For="@(() => Model.UserName)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <InputText id="Password" class="form-control" @bind-Value="@Model.Password"></InputText>
+                <ValidationMessage For="@(() => Model.Password)" />
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+

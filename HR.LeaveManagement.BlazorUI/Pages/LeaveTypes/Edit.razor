@@ -1,0 +1,12 @@
+﻿@page "/leavetypes/edit/{id:int}"
+<h3>Edit Leave Type</h3>
+
+@if (string.IsNullOrEmpty(Message) == false)
+{
+    <div class="alert alert-danger">
+        @Message
+    </div>
+}
+
+<FormComponent ButtonText="Update" LeaveType="leaveType" OnValidSubmit="@EditLeaveType" />
+
