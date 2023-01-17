@@ -32,13 +32,24 @@
                         <span class="oi oi-list-rich" aria-hidden="true"></span> Leave Types
                     </NavLink>
                 </div>
-                
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="leaverequests/">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Leave Requests
-                    </NavLink>
-                </div>
             </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="Employee">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="leaverequests/employeeindex">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Leave Requests
+                </NavLink>
+            </div>
+        </AuthorizeView>
+        <AuthorizeView Roles="Administrator">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="leaverequests/">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Leave Requests
+                </NavLink>
+            </div>
+        </AuthorizeView>
+                
+        <AuthorizeView>
             <NotAuthorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="register">

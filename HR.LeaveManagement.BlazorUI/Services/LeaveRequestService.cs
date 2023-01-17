@@ -16,18 +16,35 @@ namespace HR.LeaveManagement.BlazorUI.Services
             this._mapper = mapper;
         }
 
-        public async Task ApproveLeaveRequest(int id, bool approved)
+        public async Task<Response<Guid>> ApproveLeaveRequest(int id, bool approved)
         {
             try
             {
+                var response = new Response<Guid>();
                 var request = new ChangeLeaveRequestApprovalCommand { Approved = approved, Id = id };
                 await _client.UpdateApprovalAsync(request);
+                return response;
             }
-            catch (Exception)
+            catch (ApiException ex)
             {
-
-                throw;
+                return ConvertApiExceptions<Guid>(ex);
             }
+        }
+
+        public async Task<Response<Guid>> CancelLeaveRequest(int id)
+        {
+            try
+            {
+                var response = new Response<Guid>();
+                var request = new CancelLeaveRequestCommand { Id = id };
+                await _client.CancelRequestAsync(request);
+                return response;
+            }
+            catch (ApiException ex)
+            {
+                return ConvertApiExceptions<Guid>(ex);
+            }
+           
         }
 
         public async Task<Response<Guid>> CreateLeaveRequest(LeaveRequestVM leaveRequest)
@@ -68,14 +85,12 @@ namespace HR.LeaveManagement.BlazorUI.Services
 
         public async Task<LeaveRequestVM> GetLeaveRequest(int id)
         {
-            await AddBearerToken();
             var leaveRequest = await _client.LeaveRequestsGETAsync(id);
             return _mapper.Map<LeaveRequestVM>(leaveRequest);
         }
 
         public async Task<EmployeeLeaveRequestViewVM> GetUserLeaveRequests()
         {
-            await AddBearerToken();
             var leaveRequests = await _client.LeaveRequestsAllAsync(isLoggedInUser: true);
             var allocations = await _client.LeaveAllocationsAllAsync(isLoggedInUser: true);
             var model = new EmployeeLeaveRequestViewVM

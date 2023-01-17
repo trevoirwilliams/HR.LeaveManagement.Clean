@@ -17,16 +17,16 @@ namespace HR.LeaveManagement.BlazorUI.Models.LeaveRequests
         public bool? Approved { get; set; }
 
         public bool Cancelled { get; set; }
-        public LeaveTypeVM LeaveType { get; set; }
-        public EmployeeVM Employee { get; set; }
+        public LeaveTypeVM LeaveType { get; set; } = new LeaveTypeVM();
+        public EmployeeVM Employee { get; set; } = new EmployeeVM();
 
         [Display(Name = "Start Date")]
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [Display(Name = "End Date")]
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [Display(Name = "Leave Type")]
         [Required]
@@ -34,7 +34,7 @@ namespace HR.LeaveManagement.BlazorUI.Models.LeaveRequests
 
         [Display(Name = "Comments")]
         [MaxLength(300)]
-        public string RequestComments { get; set; }
+        public string? RequestComments { get; set; }
 
     }
 }
