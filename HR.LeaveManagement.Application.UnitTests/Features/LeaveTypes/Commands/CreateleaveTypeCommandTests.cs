@@ -18,7 +18,6 @@ namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Commands
     public class CreateleaveTypeCommandTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<ILeaveTypeRepository> _mockCategoryRepository;
         private Mock<ILeaveTypeRepository> _mockRepo;
 
         public CreateleaveTypeCommandTests()
@@ -34,13 +33,14 @@ namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Commands
         }
 
         [Fact]
-        public async Task Handle_ValidCategory_AddedToCategoriesRepo()
+        public async Task Handle_ValidLeaveType()
         {
             var handler = new CreateLeaveTypeCommandHandler(_mapper, _mockRepo.Object);
 
-            await handler.Handle(new CreateLeaveTypeCommand() { Name = "Test" }, CancellationToken.None);
+            await handler.Handle(new CreateLeaveTypeCommand() { Name = "Test1", DefaultDays = 1
+            }, CancellationToken.None);
 
-            var leaveTypes = await _mockCategoryRepository.Object.GetAsync();
+            var leaveTypes = await _mockRepo.Object.GetAsync();
             leaveTypes.Count.ShouldBe(4);
         }
     }
