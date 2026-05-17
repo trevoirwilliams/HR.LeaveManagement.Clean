@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging.Abstractions;
 using HR.LeaveManagement.Application.Contracts.Logging;
 using HR.LeaveManagement.Application.Contracts.Persistence;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
@@ -24,10 +25,10 @@ namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Commands
         {
             _mockRepo = MockLeaveTypeRepository.GetMockLeaveTypeRepository();
 
-            var mapperConfig = new MapperConfiguration(c =>
+            var mapperConfig = new MapperConfiguration(cfg =>
             {
-                c.AddProfile<LeaveTypeProfile>();
-            });
+                cfg.AddProfile<LeaveTypeProfile>();
+            }, NullLoggerFactory.Instance);
 
             _mapper = mapperConfig.CreateMapper();
         }
