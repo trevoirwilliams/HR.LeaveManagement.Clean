@@ -4,6 +4,7 @@ using HR.LeaveManagement.Application.Contracts.Persistence;
 using HR.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using HR.LeaveManagement.Application.MappingProfiles;
 using HR.LeaveManagement.Application.UnitTests.Mocks;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Shouldly;
 
@@ -22,7 +23,7 @@ namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Queries
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<LeaveTypeProfile>();
-            });
+            }, NullLoggerFactory.Instance);
 
             _mapper = mapperConfig.CreateMapper();
             _mockAppLogger = new Mock<IAppLogger<GetLeaveTypesQueryHandler>>();

@@ -1,24 +1,18 @@
 ﻿using AutoMapper;
-using HR.LeaveManagement.Application.Contracts.Logging;
 using HR.LeaveManagement.Application.Contracts.Persistence;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
-using HR.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using HR.LeaveManagement.Application.MappingProfiles;
 using HR.LeaveManagement.Application.UnitTests.Mocks;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Commands
 {
     public class CreateleaveTypeCommandTests
     {
         private readonly IMapper _mapper;
-        private Mock<ILeaveTypeRepository> _mockRepo;
+        private readonly Mock<ILeaveTypeRepository> _mockRepo;
 
         public CreateleaveTypeCommandTests()
         {
@@ -27,7 +21,7 @@ namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Commands
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<LeaveTypeProfile>();
-            });
+            }, NullLoggerFactory.Instance);
 
             _mapper = mapperConfig.CreateMapper();
         }
@@ -37,7 +31,10 @@ namespace HR.LeaveManagement.Application.UnitTests.Features.LeaveTypes.Commands
         {
             var handler = new CreateLeaveTypeCommandHandler(_mapper, _mockRepo.Object);
 
-            await handler.Handle(new CreateLeaveTypeCommand() { Name = "Test1", DefaultDays = 1
+            await handler.Handle(new CreateLeaveTypeCommand()
+            {
+                Name = "Test1",
+                DefaultDays = 1
             }, CancellationToken.None);
 
             var leaveTypes = await _mockRepo.Object.GetAsync();
